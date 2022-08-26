@@ -1,0 +1,22 @@
+name: Version Tag
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Pull version from package.json
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+    - run: echo "package_version=$(npm pkg get version | tr -d '"')" >> $GITHUB_ENV
+    - name: Update version tag
+      uses: mathieudutour/github-tag-action@v6.0
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        custom_tag: ${{ env.package_version }}
