@@ -1,7 +1,7 @@
 {
   "name": "quinzlib",
   "type": "module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Sean Quinlan <1011062+sbquinlan@users.noreply.github.com>",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "prepare": "npm run build",
+    "prepack": "npm run build",
     "clean": "rm -rf dist/*",
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "pretty": "prettier -c .",
