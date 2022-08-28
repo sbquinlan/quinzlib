@@ -1,7 +1,7 @@
 import { backoff } from './backoff.js';
 import { fluent } from './fluent.js';
 import { range, sink } from './iterable.js';
-import { map, sluice } from './iterator.js';
+import { map, sluice } from './iterator';
 
 class ThrowTill {
   private count: number = 0;
