@@ -1,8 +1,12 @@
-
 export type UnaryFunction<T, R> = (source: T) => R;
-export type OperatorAsyncFunction<T, R> = UnaryFunction<AsyncIterable<T> | Iterable<T>, AsyncIterable<R>>;
+export type OperatorAsyncFunction<T, R> = UnaryFunction<
+  AsyncIterable<T> | Iterable<T>,
+  AsyncIterable<R>
+>;
 
-export function fluent<T>(source: AsyncIterable<T> | Iterable<T>): AsyncIterable<T>;
+export function fluent<T>(
+  source: AsyncIterable<T> | Iterable<T>
+): AsyncIterable<T>;
 export function fluent<T, A>(
   source: AsyncIterable<T> | Iterable<T>,
   op1: OperatorAsyncFunction<T, A>
@@ -76,16 +80,21 @@ export function fluent<T, A, B, C, D, E, F, G, H, I>(
   op9: OperatorAsyncFunction<H, I>
 ): AsyncIterable<I>;
 export function fluent<T>(
-  source: AsyncIterable<T> | Iterable<T>, ... operations: OperatorAsyncFunction<T, T>[]
+  source: AsyncIterable<T> | Iterable<T>,
+  ...operations: OperatorAsyncFunction<T, T>[]
 ): AsyncIterable<T>;
 export function fluent<T, A>(
-  source: AsyncIterable<T> | Iterable<T>, 
+  source: AsyncIterable<T> | Iterable<T>,
   map: OperatorAsyncFunction<T, A>,
-  ... operations: OperatorAsyncFunction<A, A>[]
+  ...operations: OperatorAsyncFunction<A, A>[]
 ): AsyncIterable<T>;
 export function fluent<T>(
-  source: AsyncIterable<T> | Iterable<T>, ... operations: OperatorAsyncFunction<T, T>[]
+  source: AsyncIterable<T> | Iterable<T>,
+  ...operations: OperatorAsyncFunction<T, T>[]
 ): AsyncIterable<T>;
-export function fluent<T>(source: AsyncIterable<T> | Iterable<T>, ... operations: any[]) {
+export function fluent<T>(
+  source: AsyncIterable<T> | Iterable<T>,
+  ...operations: any[]
+) {
   return operations.reduce((acc, oper) => oper(acc), source);
 }

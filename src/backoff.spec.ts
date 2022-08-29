@@ -1,13 +1,10 @@
-import { backoff } from './backoff.js';
-import { fluent } from './fluent.js';
-import { range, sink } from './iterable.js';
-import { map, sluice } from './iterator';
+import { backoff, fluent, range, sink, map, sluice } from '.';
 
 class ThrowTill {
   private count: number = 0;
-  constructor (private failures: number) {}
+  constructor(private failures: number) {}
   async try(): Promise<number> {
-    if (this.count < this.failures) { 
+    if (this.count < this.failures) {
       this.count += 1;
       throw 'bad';
     }
@@ -18,50 +15,30 @@ class ThrowTill {
 describe('backoff', () => {
   it('should retry failures', async () => {
     const thrower = new ThrowTill(2);
-    const result = backoff(
-      () => thrower.try(),
-      10, 
-      3,
-    );
+    const result = backoff(() => thrower.try(), 10, 3);
     await expect(result()).resolves.toEqual(2);
-  })
-  
+  });
+
   it('should throw after limit', async () => {
     const thrower = new ThrowTill(4);
-    await expect(
-      backoff(
-        () => thrower.try(),
-        10, 
-        3,
-      )()
-    ).rejects.toEqual('bad');
-  })
+    await expect(backoff(() => thrower.try(), 10, 3)()).rejects.toEqual('bad');
+  });
 
   it('should validate limit', async () => {
     const thrower = new ThrowTill(2);
-    await expect(
-      backoff(
-        () => thrower.try(),
-        10, 
-        -3,
-      )()
-    ).rejects.toEqual('bad');
-  })
+    await expect(backoff(() => thrower.try(), 10, -3)()).rejects.toEqual('bad');
+  });
 
   it('should validate base', async () => {
     const thrower = new ThrowTill(2);
-    const result = backoff(
-      () => thrower.try(),
-      -20.4, 
-      3,
-    );
+    const result = backoff(() => thrower.try(), -20.4, 3);
     await expect(result()).resolves.toEqual(2);
-  })
+  });
 
   it('should work in iterators', async () => {
     const might_throw = sink(
       fluent(
-        [... range(3)].map(_ => new ThrowTill(1)),
+        [...range(3)].map((_) => new ThrowTill(1)),
         map(
           backoff(
             async (thrower) => {
@@ -70,11 +47,11 @@ describe('backoff', () => {
             },
             10,
             4
-          ),
+          )
         ),
-        sluice(1, 50),
-      ),
+        sluice(1, 50)
+      )
     );
     await expect(might_throw).resolves.toEqual([10, 10, 10]);
   });
-})
+});

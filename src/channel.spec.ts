@@ -1,5 +1,4 @@
-import { Channel, PairedPromise } from './channel.js';
-import { sink } from './iterable.js';
+import { sink, Channel, PairedPromise } from '.';
 
 describe('Paired Promise', () => {
   it('should resolve right', async () => {
