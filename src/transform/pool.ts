@@ -1,6 +1,6 @@
 import { OperatorAsyncFunction } from '../fluent.js';
-import upsync from '../iterable/upsync.js';
-import { any_partition } from '../promise.js';
+import any_partition from '../promise/any_partition.js';
+import upsync from '../readable/upsync.js';
 
 class PoolIterable<TThing> implements AsyncIterable<TThing> {
   private readonly concurrency: number;

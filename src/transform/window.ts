@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../fluent.js';
-import upsync from '../iterable/upsync.js';
+import upsync from '../readable/upsync.js';
 
 class WindowIterable<TThing> implements AsyncIterable<TThing> {
   private readonly concurrency: number;

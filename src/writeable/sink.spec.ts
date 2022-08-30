@@ -1,4 +1,4 @@
-import { range, sink } from '.';
+import { range, sink } from '..';
 
 describe('sink', () => {
   it('should consume an iterable', async () => {

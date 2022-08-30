@@ -1,29 +1,5 @@
-import { Deferred } from './promise.js';
-
-const done_result = Object.freeze({ done: true, value: undefined });
-
-/**
- * PairedPromise contains two promises (referred to as left and right). Awaiting one promise
- * resolves the other promise. This is useful for doing some concurrent communication.
- *
- * TODO: A future improvement would be to have this not require two promises on creation.
- * So when you create a new node on the right side you could just have a resolved promise.
- */
-export class PairedPromise<TLeft, TRight> {
-  private readonly _left: Deferred<TLeft> = new Deferred<TLeft>();
-  private readonly _right: Deferred<TRight> = new Deferred<TRight>();
-  constructor() {}
-
-  left(rval: TRight): Promise<TLeft> {
-    this._right.resolve(rval);
-    return this._left;
-  }
-
-  right(lval: TLeft): Promise<TRight> {
-    this._left.resolve(lval);
-    return this._right;
-  }
-}
+import PairedPromise from './paired.js';
+import done_result from '../readable/done_result.js';
 
 class ChannelNode<TLeft, TRight> {
   constructor(
@@ -54,9 +30,9 @@ class ChannelNode<TLeft, TRight> {
  * as they need to. For example, if writes outpace reads or reads outpace writes then new
  * nodes are created to make promises for future fulfillment using PairedPromises.
  *
- * TODO: Should write the base class that support two way.
+ * TODO: Should write the base class that supports two way.
  */
-export class Channel<T> {
+export default class Channel<T> {
   private readonly writer: IterableIterator<
     PairedPromise<IteratorResult<T>, void>
   >;

@@ -1,4 +1,4 @@
-import upsync from '../iterable/upsync.js';
+import upsync from './upsync.js';
 import done_result from './done_result.js';
 
 type SomeIterable<T> = AsyncIterable<T> | Iterable<T>;
@@ -41,7 +41,7 @@ class ZipIterable<T extends readonly SomeIterable<unknown>[]>
 }
 
 export default function zip<T extends readonly SomeIterable<unknown>[]>(
-  ...iterables: [T[number], ...T]
+  ...iterables: [...T]
 ) {
   return new ZipIterable(...iterables);
 }

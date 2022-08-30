@@ -1,5 +1,5 @@
 import { OperatorAsyncFunction } from '../fluent.js';
-import upsync from '../iterable/upsync.js';
+import upsync from '../readable/upsync.js';
 
 class MappingIterator<TThing, TResult>
   implements AsyncIterableIterator<Awaited<TResult>>

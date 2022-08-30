@@ -1,6 +1,6 @@
 import { OperatorAsyncFunction } from '../fluent.js';
-import upsync from '../iterable/upsync.js';
-import { sleep } from '../promise.js';
+import sleep from '../promise/sleep.js';
+import upsync from '../readable/upsync.js';
 
 class LeakyBucketIterable<TThing> implements AsyncIterableIterator<TThing> {
   private readonly iter: AsyncIterator<TThing>;

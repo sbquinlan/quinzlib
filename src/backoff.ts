@@ -1,4 +1,4 @@
-import { sleep } from './promise.js';
+import sleep from './promise/sleep.js';
 
 export function backoff<TThing, TArgs extends unknown[]>(
   call: (...args: [...TArgs]) => Promise<TThing>,

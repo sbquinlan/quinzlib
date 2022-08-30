@@ -1,4 +1,4 @@
-import upsync from './iterable/upsync.js';
+import upsync from '../readable/upsync.js';
 
 /**
  * sink() pulls things from an interator as fast as possible to make

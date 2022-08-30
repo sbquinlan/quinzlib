@@ -1,4 +1,4 @@
-import upsync, { AsyncWrapper } from '../iterable/upsync.js';
+import upsync, { AsyncWrapper } from './upsync.js';
 import done_result from './done_result.js';
 
 type SomeIterable<T> = AsyncIterable<T> | Iterable<T>;
@@ -43,7 +43,7 @@ class StripeIterable<Titers extends SomeIterable<any>[]>
 }
 
 export default function stripe<Titers extends SomeIterable<any>[]>(
-  ...iters: [Titers[number], ...Titers]
+  ...iters: [...Titers]
 ): AsyncIterable<ElementTypeOf<Titers[number]>> {
   if (iters.length <= 1) {
     return iters[0] ? upsync(iters[0]!) : new AsyncWrapper([]);

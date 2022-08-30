@@ -1,10 +1,8 @@
 export * from './backoff.js';
-export * from './channel.js';
 export * from './fluent.js';
 export * from './iterated_function.js';
-export * from './iterator/index.js';
-export * from './iterable/index.js';
-export * from './promise.js';
 
-import sink from './sink.js';
-export { sink };
+export * from './readable/index.js';
+export * from './transform/index.js';
+export * from './writeable/index.js';
+export * from './promise/index.js';

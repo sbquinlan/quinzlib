@@ -1,5 +1,5 @@
-import { fluent, pool, range, sleep, sink, stripe, window } from '..';
-import done_result from './done_result.js';
+import { fluent, pool, range, sink, stripe, sleep, window } from '..';
+import done_result from './done_result';
 
 class SleepyRange implements AsyncIterableIterator<number> {
   private i: number = 0;
@@ -33,7 +33,6 @@ describe('stripe', () => {
   it('should iterate through one iterable', async () => {
     await expect(
       sink(
-        // @ts-ignore i know types prevent this
         stripe(range(6))
       )
     ).resolves.toEqual([...range(6)]);
@@ -42,7 +41,6 @@ describe('stripe', () => {
   it('should iterate through no iterables', async () => {
     await expect(
       sink(
-        // @ts-ignore i know types prevent this
         stripe()
       )
     ).resolves.toEqual([]);

@@ -1,7 +1,7 @@
-import { Channel } from './channel.js';
 import { fluent, OperatorAsyncFunction } from './fluent.js';
-import { map } from './iterator/index.js';
-import { Deferred } from './promise.js';
+import Channel from './promise/channel.js';
+import map from './transform/map.js';
+import Deferred from './promise/deferred.js';
 
 interface IteratedFunction<TArgs extends any[], TResult> {
   (...args: [...TArgs]): Promise<TResult>;
