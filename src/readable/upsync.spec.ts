@@ -1,5 +1,5 @@
 import upsync, { AsyncWrapper } from './upsync.js';
-import range from './range.js';
+import { range } from '..';
 
 describe('upsync', () => {
   it('should ignore async iterable', () => {

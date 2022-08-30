@@ -2,27 +2,29 @@ import { flatten, fluent, map, pool, range, sink, sleep, window } from '..';
 
 describe('flatten', () => {
   it('should flatten arrays', async () => {
-    await expect(sink(
+    await expect(
       fluent(
         range(3),
         map(n => [n, n]),
         flatten(),
+        sink(),
       )
-    )).resolves.toEqual([0, 0, 1, 1, 2, 2]);
+    ).resolves.toEqual([0, 0, 1, 1, 2, 2]);
   });
 
   it('should handle empty arrays', async () => {
-    await expect(sink(
+    await expect(
       fluent(
         range(3),
         map(_ => []),
         flatten(),
+        sink(),
       )
-    )).resolves.toEqual([]);
+    ).resolves.toEqual([]);
   });
 
   it('should be pool-able', async () => {
-    await expect(sink(
+    await expect(
       fluent(
         fluent(
           range(4),
@@ -30,12 +32,13 @@ describe('flatten', () => {
         ),
         flatten(),
         pool(5),
+        sink(),
       )
-    )).resolves.toEqual([]);
+    ).resolves.toEqual([]);
   });
 
   it('should be window-able', async () => {
-    await expect(sink(
+    await expect(
       fluent(
         fluent(
           range(4),
@@ -43,7 +46,8 @@ describe('flatten', () => {
         ),
         flatten(),
         window(5),
+        sink(),
       )
-    )).resolves.toEqual([]);
+    ).resolves.toEqual([]);
   });
 })

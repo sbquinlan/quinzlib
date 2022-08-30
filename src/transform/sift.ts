@@ -1,5 +1,6 @@
-import { OperatorAsyncFunction } from '../fluent.js';
+import type { TransformIterable } from '../types.js';
 import upsync from '../readable/upsync.js';
+import done_result from '../readable/done_result.js';
 
 class SiftIterator<TThing>
   implements AsyncIterableIterator<TThing>
@@ -15,7 +16,7 @@ class SiftIterator<TThing>
 
   async next(): Promise<IteratorResult<TThing, any>> {
     if (this.done) {
-      return { value: undefined, done: true };
+      return done_result;
     }
     const { value, done } = await this.iter.next();
     if (done) {
@@ -48,7 +49,7 @@ class SiftIterator<TThing>
  */
 export default function sift<TThing>(
   call: (thing: TThing) => PromiseLike<boolean> | boolean,
-): OperatorAsyncFunction<TThing, TThing> {
+): TransformIterable<TThing, TThing> {
   return (upstream: AsyncIterable<TThing> | Iterable<TThing>) =>
     new SiftIterator(upstream, call);
 }

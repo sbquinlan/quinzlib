@@ -19,20 +19,20 @@ class SleepyRange implements AsyncIterableIterator<number> {
 
 describe('stripe', () => {
   it('should stripe multiple iterables', async () => {
-    await expect(sink(stripe([0, 2, 4], [1, 3, 5]))).resolves.toEqual([
+    await expect(sink()(stripe([0, 2, 4], [1, 3, 5]))).resolves.toEqual([
       ...range(6),
     ]);
   });
 
   it('should stripe multiple iterables of different length', async () => {
     await expect(
-      sink(stripe([0, 2, 4], [1, 3, 5, 6, 7, 8, 9]))
+      sink()(stripe([0, 2, 4], [1, 3, 5, 6, 7, 8, 9]))
     ).resolves.toEqual([...range(10)]);
   });
 
   it('should iterate through one iterable', async () => {
     await expect(
-      sink(
+      sink()(
         stripe(range(6))
       )
     ).resolves.toEqual([...range(6)]);
@@ -40,7 +40,7 @@ describe('stripe', () => {
 
   it('should iterate through no iterables', async () => {
     await expect(
-      sink(
+      sink()(
         stripe()
       )
     ).resolves.toEqual([]);
@@ -48,19 +48,20 @@ describe('stripe', () => {
 
   it('should be pool-able', async () => {
     await expect(
-      sink(
-        fluent(stripe(new SleepyRange(100, 3), new SleepyRange(10, 4)), pool(5))
+      fluent(
+        stripe(new SleepyRange(100, 3), new SleepyRange(10, 4)), 
+        pool(5),
+        sink(),
       )
     ).resolves.toEqual([...range(4), ...range(3)]);
   });
 
   it('should be window-able', async () => {
     await expect(
-      sink(
-        fluent(
-          stripe(new SleepyRange(100, 3), new SleepyRange(10, 4)),
-          window(5)
-        )
+      fluent(
+        stripe(new SleepyRange(100, 3), new SleepyRange(10, 4)),
+        window(5),
+        sink(),
       )
     ).resolves.toEqual([0, 0, 1, 1, 2, 2, 3]);
   });

@@ -36,21 +36,20 @@ describe('backoff', () => {
   });
 
   it('should work in iterators', async () => {
-    const might_throw = sink(
-      fluent(
-        [...range(3)].map((_) => new ThrowTill(1)),
-        map(
-          backoff(
-            async (thrower) => {
-              await thrower.try();
-              return 10;
-            },
-            10,
-            4
-          )
-        ),
-        sluice(1, 50)
-      )
+    const might_throw = fluent(
+      [...range(3)].map((_) => new ThrowTill(1)),
+      map(
+        backoff(
+          async (thrower) => {
+            await thrower.try();
+            return 10;
+          },
+          10,
+          4
+        )
+      ),
+      sluice(1, 50),
+      sink(),
     );
     await expect(might_throw).resolves.toEqual([10, 10, 10]);
   });

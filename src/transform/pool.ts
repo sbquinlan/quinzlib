@@ -1,12 +1,12 @@
-import { OperatorAsyncFunction } from '../fluent.js';
+import type { IterableLike, TransformIterable } from '../types.js';
 import any_partition from '../promise/any_partition.js';
 import upsync from '../readable/upsync.js';
 
 class PoolIterable<TThing> implements AsyncIterable<TThing> {
   private readonly concurrency: number;
   constructor(
-    private upstream: AsyncIterable<TThing> | Iterable<TThing>,
-    concurrency: number
+    private upstream: IterableLike<TThing>,
+    concurrency: number,
   ) {
     this.concurrency = Math.floor(Math.max(0, concurrency));
   }
@@ -41,7 +41,6 @@ class PoolIterable<TThing> implements AsyncIterable<TThing> {
  */
 export default function pool<TThing>(
   concurrency: number = 1 // pool size
-): OperatorAsyncFunction<TThing, TThing> {
-  return (upstream: AsyncIterable<TThing> | Iterable<TThing>) =>
-    new PoolIterable(upstream, concurrency);
+): TransformIterable<TThing, TThing> {
+  return (upstream: IterableLike<TThing>) => new PoolIterable(upstream, concurrency);
 }

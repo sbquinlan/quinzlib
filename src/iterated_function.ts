@@ -1,7 +1,8 @@
-import { fluent, OperatorAsyncFunction } from './fluent.js';
+import { fluent } from './fluent.js';
 import Channel from './promise/channel.js';
 import map from './transform/map.js';
 import Deferred from './promise/deferred.js';
+import type { TransformIterable } from './types.js';
 
 interface IteratedFunction<TArgs extends any[], TResult> {
   (...args: [...TArgs]): Promise<TResult>;
@@ -10,7 +11,7 @@ interface IteratedFunction<TArgs extends any[], TResult> {
 
 export function iterated_function<TArgs extends any[], TResult>(
   func: (...args: [...TArgs]) => TResult,
-  operators: OperatorAsyncFunction<void, void>[]
+  operators: TransformIterable<void, void>[]
 ): IteratedFunction<TArgs, TResult> {
   const channel: Channel<() => Promise<void>> = new Channel();
 
@@ -18,6 +19,7 @@ export function iterated_function<TArgs extends any[], TResult>(
     const pipeline = fluent(
       channel,
       map((f: () => Promise<void>) => f()),
+      // @ts-ignore fuck off
       ...operators
     );
     // just pump the iterator

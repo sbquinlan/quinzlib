@@ -1,13 +1,8 @@
+import { ElementTypeOf, IterableLike, ReadableIterable } from '../types.js';
 import upsync, { AsyncWrapper } from './upsync.js';
 import done_result from './done_result.js';
 
-type SomeIterable<T> = AsyncIterable<T> | Iterable<T>;
-type ElementTypeOf<T extends SomeIterable<any>> = T extends SomeIterable<
-  infer Tinner
->
-  ? Tinner
-  : never;
-class StripeIterable<Titers extends SomeIterable<any>[]>
+class StripeIterable<Titers extends IterableLike<any>[]>
   implements AsyncIterableIterator<ElementTypeOf<Titers[number]>>
 {
   private iters: AsyncIterator<ElementTypeOf<Titers[number]>>[];
@@ -42,9 +37,9 @@ class StripeIterable<Titers extends SomeIterable<any>[]>
   }
 }
 
-export default function stripe<Titers extends SomeIterable<any>[]>(
+export default function stripe<Titers extends IterableLike<any>[]>(
   ...iters: [...Titers]
-): AsyncIterable<ElementTypeOf<Titers[number]>> {
+): ReadableIterable<ElementTypeOf<Titers[number]>> {
   if (iters.length <= 1) {
     return iters[0] ? upsync(iters[0]!) : new AsyncWrapper([]);
   }

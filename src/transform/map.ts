@@ -1,4 +1,4 @@
-import { OperatorAsyncFunction } from '../fluent.js';
+import type { IterableLike, TransformIterable } from '../types.js';
 import done_result from '../readable/done_result.js';
 import upsync from '../readable/upsync.js';
 
@@ -8,7 +8,7 @@ class MappingIterator<TThing, TResult>
   private readonly iter: AsyncIterator<TThing>;
   private done: boolean = false;
   constructor(
-    upstream: AsyncIterable<TThing> | Iterable<TThing>,
+    upstream: IterableLike<TThing>,
     private readonly call: (thing: TThing) => TResult
   ) {
     this.iter = upsync(upstream)[Symbol.asyncIterator]();
@@ -32,7 +32,6 @@ class MappingIterator<TThing, TResult>
  */
 export default function map<TThing, TResult>(
   call: (thing: TThing) => TResult
-): OperatorAsyncFunction<TThing, Awaited<TResult>> {
-  return (upstream: AsyncIterable<TThing> | Iterable<TThing>) =>
-    new MappingIterator(upstream, call);
+): TransformIterable<TThing, Awaited<TResult>> {
+  return (upstream: IterableLike<TThing>) => new MappingIterator(upstream, call);
 }

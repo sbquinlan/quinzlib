@@ -1,10 +1,10 @@
-import { OperatorAsyncFunction } from '../fluent.js';
+import type { IterableLike, TransformIterable } from '../types.js';
 import upsync from '../readable/upsync.js';
 
 class WindowIterable<TThing> implements AsyncIterable<TThing> {
   private readonly concurrency: number;
   constructor(
-    private upstream: AsyncIterable<TThing> | Iterable<TThing>,
+    private upstream: IterableLike<TThing>,
     concurrency: number
   ) {
     this.concurrency = Math.floor(Math.max(0, concurrency));
@@ -48,7 +48,7 @@ class WindowIterable<TThing> implements AsyncIterable<TThing> {
  */
 export default function window<TThing>(
   concurrency: number = 1 // window size
-): OperatorAsyncFunction<TThing, TThing> {
-  return (upstream: AsyncIterable<TThing> | Iterable<TThing>) =>
+): TransformIterable<TThing, TThing> {
+  return (upstream: IterableLike<TThing>) =>
     new WindowIterable(upstream, concurrency);
 }

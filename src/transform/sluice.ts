@@ -1,4 +1,4 @@
-import { OperatorAsyncFunction } from '../fluent.js';
+import type { IterableLike, TransformIterable } from '../types.js';
 import sleep from '../promise/sleep.js';
 import done_result from '../readable/done_result.js';
 import upsync from '../readable/upsync.js';
@@ -12,7 +12,7 @@ class LeakyBucketIterable<TThing> implements AsyncIterableIterator<TThing> {
   private last: number = Date.now();
   private done: boolean = false;
   constructor(
-    upstream: AsyncIterable<TThing> | Iterable<TThing>,
+    upstream: IterableLike<TThing>,
     limit: number,
     rate: number
   ) {
@@ -64,7 +64,6 @@ class LeakyBucketIterable<TThing> implements AsyncIterableIterator<TThing> {
 export default function sluice<TThing>(
   limit: number,
   rate: number
-): OperatorAsyncFunction<TThing, TThing> {
-  return (upstream: AsyncIterable<TThing> | Iterable<TThing>) =>
-    new LeakyBucketIterable(upstream, limit, rate);
+): TransformIterable<TThing, TThing> {
+  return (upstream: IterableLike<TThing>) => new LeakyBucketIterable(upstream, limit, rate);
 }

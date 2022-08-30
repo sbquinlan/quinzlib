@@ -1,4 +1,4 @@
-import { OperatorAsyncFunction } from '../fluent.js';
+import type { TransformIterable } from '../types.js';
 
 class FilterIterator<TThing> implements AsyncIterable<TThing> {
   constructor(
@@ -28,7 +28,7 @@ class FilterIterator<TThing> implements AsyncIterable<TThing> {
  */
 export default function filter<TThing>(
   call: (thing: TThing) => PromiseLike<boolean> | boolean,
-): OperatorAsyncFunction<TThing, TThing> {
+): TransformIterable<TThing, TThing> {
   return (upstream: AsyncIterable<TThing> | Iterable<TThing>) =>
     new FilterIterator(upstream, call);
 }
