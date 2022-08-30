@@ -15,8 +15,8 @@ class WindowIterable<TThing> implements AsyncIterable<TThing> {
   ): Promise<
     [IteratorResult<TThing> | undefined, Promise<IteratorResult<TThing>>[]]
   > {
-    const result = await active[0];
-    return [result, active.slice(1)];
+    const result = await active.shift();
+    return [result, active];
   }
 
   async *[Symbol.asyncIterator]() {

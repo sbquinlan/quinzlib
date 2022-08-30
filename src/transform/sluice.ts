@@ -1,5 +1,6 @@
 import { OperatorAsyncFunction } from '../fluent.js';
 import sleep from '../promise/sleep.js';
+import done_result from '../readable/done_result.js';
 import upsync from '../readable/upsync.js';
 
 class LeakyBucketIterable<TThing> implements AsyncIterableIterator<TThing> {
@@ -34,7 +35,7 @@ class LeakyBucketIterable<TThing> implements AsyncIterableIterator<TThing> {
     if (delay > 0) {
       await sleep(delay);
       if (this.done) {
-        return { done: true, value: undefined };
+        return done_result;
       }
     }
     const result = await this.iter.next();

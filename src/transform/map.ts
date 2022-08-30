@@ -1,4 +1,5 @@
 import { OperatorAsyncFunction } from '../fluent.js';
+import done_result from '../readable/done_result.js';
 import upsync from '../readable/upsync.js';
 
 class MappingIterator<TThing, TResult>
@@ -14,9 +15,7 @@ class MappingIterator<TThing, TResult>
   }
 
   async next(): Promise<IteratorResult<Awaited<TResult>, any>> {
-    if (this.done) {
-      return { value: undefined, done: true };
-    }
+    if (this.done) return done_result;
     const { value, done } = await this.iter.next();
     this.done = this.done || done === true;
     return { value: done ? value : await this.call(value), done };
