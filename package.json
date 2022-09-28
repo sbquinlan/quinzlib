@@ -1,7 +1,7 @@
 {
   "name": "quinzlib",
   "type": "module",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Sean Quinlan <1011062+sbquinlan@users.noreply.github.com>",
   "license": "MIT",
   "main": "./dist/index.cjs",
