@@ -27,7 +27,7 @@ describe('sluice', () => {
       map((num: number) => sleep(10).then(() => num)),
       sluice(5, 10),
       sluice(1, 100),
-      sink(),
+      sink()
     );
     await expect(result).resolves.toEqual([...range(10)]);
     expect(Date.now() - start).toBeGreaterThanOrEqual(1000);
@@ -40,7 +40,7 @@ describe('sluice', () => {
       map((num: number) => sleep(10).then(() => num)),
       sluice(1, 100),
       sluice(5, 10),
-      sink(),
+      sink()
     );
     await expect(result).resolves.toEqual([...range(10)]);
     expect(Date.now() - start).toBeGreaterThanOrEqual(1000);
@@ -57,7 +57,7 @@ describe('sluice', () => {
         return num;
       }),
       sluice(5, 10),
-      sink(),
+      sink()
     );
     await expect(pending).rejects.toEqual('bad');
   });

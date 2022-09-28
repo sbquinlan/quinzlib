@@ -11,11 +11,7 @@ class LeakyBucketIterable<TThing> implements AsyncIterableIterator<TThing> {
   private level: number = 0;
   private last: number = Date.now();
   private done: boolean = false;
-  constructor(
-    upstream: IterableLike<TThing>,
-    limit: number,
-    rate: number
-  ) {
+  constructor(upstream: IterableLike<TThing>, limit: number, rate: number) {
     this.iter = upsync(upstream)[Symbol.asyncIterator]();
     this.limit = Math.floor(Math.max(1, limit));
     this.rate = Math.floor(Math.max(0, rate));
@@ -65,5 +61,6 @@ export default function sluice<TThing>(
   limit: number,
   rate: number
 ): TransformIterable<TThing, TThing> {
-  return (upstream: IterableLike<TThing>) => new LeakyBucketIterable(upstream, limit, rate);
+  return (upstream: IterableLike<TThing>) =>
+    new LeakyBucketIterable(upstream, limit, rate);
 }

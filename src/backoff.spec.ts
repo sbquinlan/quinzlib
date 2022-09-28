@@ -49,7 +49,7 @@ describe('backoff', () => {
         )
       ),
       sluice(1, 50),
-      sink(),
+      sink()
     );
     await expect(might_throw).resolves.toEqual([10, 10, 10]);
   });

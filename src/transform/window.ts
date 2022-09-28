@@ -3,10 +3,7 @@ import upsync from '../readable/upsync.js';
 
 class WindowIterable<TThing> implements AsyncIterable<TThing> {
   private readonly concurrency: number;
-  constructor(
-    private upstream: IterableLike<TThing>,
-    concurrency: number
-  ) {
+  constructor(private upstream: IterableLike<TThing>, concurrency: number) {
     this.concurrency = Math.floor(Math.max(0, concurrency));
   }
 

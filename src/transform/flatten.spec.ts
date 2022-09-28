@@ -5,9 +5,9 @@ describe('flatten', () => {
     await expect(
       fluent(
         range(3),
-        map(n => [n, n]),
+        map((n) => [n, n]),
         flatten(),
-        sink(),
+        sink()
       )
     ).resolves.toEqual([0, 0, 1, 1, 2, 2]);
   });
@@ -16,9 +16,9 @@ describe('flatten', () => {
     await expect(
       fluent(
         range(3),
-        map(_ => []),
+        map((_) => []),
         flatten(),
-        sink(),
+        sink()
       )
     ).resolves.toEqual([]);
   });
@@ -28,11 +28,11 @@ describe('flatten', () => {
       fluent(
         fluent(
           range(4),
-          map(n => sleep((10 - n) * 10).then(_ => [n])),
+          map((n) => sleep((10 - n) * 10).then((_) => [n]))
         ),
         flatten(),
         pool(5),
-        sink(),
+        sink()
       )
     ).resolves.toEqual([]);
   });
@@ -42,12 +42,12 @@ describe('flatten', () => {
       fluent(
         fluent(
           range(4),
-          map(n => sleep((10 - n) * 10).then(_ => [n])),
+          map((n) => sleep((10 - n) * 10).then((_) => [n]))
         ),
         flatten(),
         window(5),
-        sink(),
+        sink()
       )
     ).resolves.toEqual([]);
   });
-})
+});

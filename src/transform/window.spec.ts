@@ -7,7 +7,7 @@ describe('window', () => {
   });
 
   it('should work with window size 3 on empty iterator', async () => {
-    const result = await  fluent(range(0), window(3), sink());
+    const result = await fluent(range(0), window(3), sink());
     expect(result).toEqual([]);
   });
 
@@ -24,7 +24,7 @@ describe('window', () => {
         return num;
       }),
       window(3),
-      sink(),
+      sink()
     );
     await expect(result).resolves.toEqual([...range(10)]);
   });
@@ -44,7 +44,7 @@ describe('window', () => {
       window(3),
       sluice(1, 100),
       map(async (start) => [start, Date.now()]),
-      sink(),
+      sink()
     );
     expect(probes[9][0]).toBeGreaterThanOrEqual(start + 700);
     expect(Date.now() - start).toBeGreaterThanOrEqual(1000);

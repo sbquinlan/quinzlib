@@ -1,4 +1,4 @@
-import PairedPromise from './paired.js'
+import PairedPromise from './paired.js';
 
 describe('Paired Promise', () => {
   it('should resolve right', async () => {

@@ -31,27 +31,19 @@ describe('stripe', () => {
   });
 
   it('should iterate through one iterable', async () => {
-    await expect(
-      sink()(
-        stripe(range(6))
-      )
-    ).resolves.toEqual([...range(6)]);
+    await expect(sink()(stripe(range(6)))).resolves.toEqual([...range(6)]);
   });
 
   it('should iterate through no iterables', async () => {
-    await expect(
-      sink()(
-        stripe()
-      )
-    ).resolves.toEqual([]);
+    await expect(sink()(stripe())).resolves.toEqual([]);
   });
 
   it('should be pool-able', async () => {
     await expect(
       fluent(
-        stripe(new SleepyRange(100, 3), new SleepyRange(10, 4)), 
+        stripe(new SleepyRange(100, 3), new SleepyRange(10, 4)),
         pool(5),
-        sink(),
+        sink()
       )
     ).resolves.toEqual([...range(4), ...range(3)]);
   });
@@ -61,7 +53,7 @@ describe('stripe', () => {
       fluent(
         stripe(new SleepyRange(100, 3), new SleepyRange(10, 4)),
         window(5),
-        sink(),
+        sink()
       )
     ).resolves.toEqual([0, 0, 1, 1, 2, 2, 3]);
   });

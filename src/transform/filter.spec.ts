@@ -5,40 +5,40 @@ describe('filter', () => {
     await expect(
       fluent(
         range(10),
-        filter(n => Boolean(n % 2)),
-        sink(),
+        filter((n) => Boolean(n % 2)),
+        sink()
       )
-    ).resolves.toEqual([1, 3, 5, 7, 9])
+    ).resolves.toEqual([1, 3, 5, 7, 9]);
   });
 
   it('it filters empty iterators', async () => {
     await expect(
       fluent(
         range(0),
-        filter(n => Boolean(n % 2)),
-        sink(),
+        filter((n) => Boolean(n % 2)),
+        sink()
       )
-    ).resolves.toEqual([])
+    ).resolves.toEqual([]);
   });
 
   it('it works if it filters everything', async () => {
     await expect(
       fluent(
         range(1),
-        filter(_ => false),
-        sink(),
+        filter((_) => false),
+        sink()
       )
-    ).resolves.toEqual([])
+    ).resolves.toEqual([]);
   });
 
   it('should NOT be pool-able', async () => {
     await expect(
       fluent(
         range(10),
-        map(n => (n % 2) ? sleep((10 - n) * 10).then(() => n) : n),
-        filter(n => Boolean(n % 2)),
+        map((n) => (n % 2 ? sleep((10 - n) * 10).then(() => n) : n)),
+        filter((n) => Boolean(n % 2)),
         pool(5),
-        sink(),
+        sink()
       )
     ).resolves.not.toEqual([9, 7, 5, 3, 1]);
   });
@@ -47,10 +47,10 @@ describe('filter', () => {
     await expect(
       fluent(
         range(10),
-        map(n => (n % 2) ? sleep((10 - n) * 10).then(() => n) : n),
-        filter(n => Boolean(n % 2)),
+        map((n) => (n % 2 ? sleep((10 - n) * 10).then(() => n) : n)),
+        filter((n) => Boolean(n % 2)),
         window(5),
-        sink(),
+        sink()
       )
     ).resolves.toEqual([1, 3, 5, 7, 9]);
   });

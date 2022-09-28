@@ -4,10 +4,7 @@ import upsync from '../readable/upsync.js';
 
 class PoolIterable<TThing> implements AsyncIterable<TThing> {
   private readonly concurrency: number;
-  constructor(
-    private upstream: IterableLike<TThing>,
-    concurrency: number,
-  ) {
+  constructor(private upstream: IterableLike<TThing>, concurrency: number) {
     this.concurrency = Math.floor(Math.max(0, concurrency));
   }
 
@@ -42,5 +39,6 @@ class PoolIterable<TThing> implements AsyncIterable<TThing> {
 export default function pool<TThing>(
   concurrency: number = 1 // pool size
 ): TransformIterable<TThing, TThing> {
-  return (upstream: IterableLike<TThing>) => new PoolIterable(upstream, concurrency);
+  return (upstream: IterableLike<TThing>) =>
+    new PoolIterable(upstream, concurrency);
 }

@@ -25,7 +25,7 @@ describe('pool', () => {
         return [num, now, Date.now()];
       }),
       pool(5),
-      sink(),
+      sink()
     );
     expect(result.map((p) => p[0])).toEqual([1, 2, 4, 5, 7, 8, 0, 3, 6, 9]);
   });
@@ -41,7 +41,7 @@ describe('pool', () => {
         arr.push(Date.now());
         return arr;
       }),
-      sink(),
+      sink()
     );
     expect(probes[9][0]).toBeGreaterThanOrEqual(start + 700);
     expect(Date.now() - start).toBeGreaterThanOrEqual(1000);
@@ -55,7 +55,7 @@ describe('pool', () => {
       pool(3),
       sluice(1, 100),
       map(async (s) => [s, Date.now()]),
-      sink(),
+      sink()
     );
     expect(probes[9][0]).toBeGreaterThanOrEqual(start + 700);
     expect(Date.now() - start).toBeGreaterThanOrEqual(1000);

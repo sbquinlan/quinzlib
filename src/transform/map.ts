@@ -33,5 +33,6 @@ class MappingIterator<TThing, TResult>
 export default function map<TThing, TResult>(
   call: (thing: TThing) => TResult
 ): TransformIterable<TThing, Awaited<TResult>> {
-  return (upstream: IterableLike<TThing>) => new MappingIterator(upstream, call);
+  return (upstream: IterableLike<TThing>) =>
+    new MappingIterator(upstream, call);
 }

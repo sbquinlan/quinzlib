@@ -1,4 +1,4 @@
-import Deferred from "./deferred.js";
+import Deferred from './deferred.js';
 
 /**
  * PairedPromise contains two promises (referred to as left and right). Awaiting one promise
@@ -8,7 +8,7 @@ import Deferred from "./deferred.js";
  * So when you create a new node on the right side you could just have a resolved promise.
  * Everytime I try to do that, it gets messy quick.
  */
- export default class PairedPromise<TLeft, TRight> {
+export default class PairedPromise<TLeft, TRight> {
   private readonly _left: Deferred<TLeft> = new Deferred<TLeft>();
   private readonly _right: Deferred<TRight> = new Deferred<TRight>();
   constructor() {}

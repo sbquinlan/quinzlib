@@ -1,4 +1,3 @@
-
 export type IterableLike<T> = AsyncIterable<T> | Iterable<T>;
 export type ElementTypeOf<T extends IterableLike<any>> = T extends IterableLike<
   infer Tinner

@@ -1,9 +1,9 @@
-import type { WritableIterable } from '../types.js'
+import type { WritableIterable } from '../types.js';
 import upsync from '../readable/upsync.js';
 
 /**
- * sink() pulls things from an interator as fast as possible to make
- * and array. Think Array.from, but supporting AsyncIterables.
+ * sink() pulls things from an iterator as fast as possible to make
+ * an array. Think Array.from, but supporting AsyncIterables.
  */
 export default function sink<TThing>(): WritableIterable<TThing, TThing[]> {
   return async (upstream: AsyncIterable<TThing> | Iterable<TThing>) => {
@@ -13,5 +13,5 @@ export default function sink<TThing>(): WritableIterable<TThing, TThing[]> {
       arr.push(next.value);
     }
     return arr;
-  }
+  };
 }

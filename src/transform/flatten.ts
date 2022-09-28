@@ -2,16 +2,12 @@ import type { IterableLike, TransformIterable } from '../types.js';
 import done_result from '../readable/done_result.js';
 import upsync from '../readable/upsync.js';
 
-class FlattenIterator<TThing>
-  implements AsyncIterableIterator<TThing>
-{
+class FlattenIterator<TThing> implements AsyncIterableIterator<TThing> {
   private readonly iter: AsyncIterator<Iterable<TThing>>;
   private buffer: TThing[] = [];
   private done: boolean = false;
 
-  constructor(
-    upstream: IterableLike<Iterable<TThing>>,
-  ) {
+  constructor(upstream: IterableLike<Iterable<TThing>>) {
     this.iter = upsync(upstream)[Symbol.asyncIterator]();
   }
 
@@ -36,7 +32,10 @@ class FlattenIterator<TThing>
   }
 }
 
-export default function flatten<TThing>(
-): TransformIterable<Iterable<TThing>, TThing> {
-  return (upstream: IterableLike<Iterable<TThing>>) => new FlattenIterator(upstream);
+export default function flatten<TThing>(): TransformIterable<
+  Iterable<TThing>,
+  TThing
+> {
+  return (upstream: IterableLike<Iterable<TThing>>) =>
+    new FlattenIterator(upstream);
 }
